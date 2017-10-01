@@ -2,6 +2,7 @@
 *.vcxproj
 *.vcxproj.filters
 
+*.csproj
 *.config
 *.sln
 *.suo
