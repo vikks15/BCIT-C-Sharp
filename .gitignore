@@ -1,0 +1,11 @@
+*Debug/
+*.vcxproj
+*.vcxproj.filters
+
+*.config
+*.sln
+*.suo
+bin/
+obj/
+Properties/
+*.txt
