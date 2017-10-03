@@ -14,13 +14,10 @@ namespace Lab2
        /// </summary>
         abstract class GeomFigure
         {
-          private int a = 0, b = 0;
-          public virtual int Area()
-          {
-              return a+b;
-          }
+          public abstract double Area();
+         
         }
-
+     
         class Rectangle : GeomFigure
         {
             //------------------properties------------------------------
@@ -36,23 +33,52 @@ namespace Lab2
 
             public Rectangle(int w, int h) { _width = w; height = h; } //constructor 
 
-            public override int Area()
+            public override double Area()
             {
                 return _width * height;
             }
 
         }
 
+        class Square : Rectangle
+        {
+            public Square(int s) : base(s, s) { } //call of rect constructor in square constructor
+
+        }
+
+        class Circle : GeomFigure
+        {
+            public int r { get; set; }
+            public Circle(int r) { this.r=r; }
+
+            public override double Area()
+            {
+                return 2 * 3.14 * r * r;
+            }
+
+            public override string ToString()
+            {
+                return "r = " + r.ToString() + ";" + " Circle area = " + Area().ToString();
+            }
+        }
+
+
         static void Main(string[] args)
         {
             int s1 = 2;
             int s2 = 6;
-            Rectangle rec = new Rectangle(s1,s2);
-            Console.WriteLine(rec.width + " " + rec.height);
+            Rectangle rect = new Rectangle(s1,s2);
+            Console.WriteLine(rect.width + " " + rect.height);
+            rect.width = 4;
+            Console.WriteLine(rect.width + " " + rect.height);
+            Console.WriteLine(rect.Area());
 
-            rec.width = 4;
-            Console.WriteLine(rec.width + " " + rec.height);
-            Console.WriteLine(rec.Area());
+            Square sq = new Square(s1);
+            Console.WriteLine(sq.width);
+
+            Circle circ = new Circle(s2);
+            Console.WriteLine(circ.Area());
+            Console.WriteLine(circ.ToString());
 
             Console.ReadKey();
         }
