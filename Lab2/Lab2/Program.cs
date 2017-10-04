@@ -7,6 +7,88 @@ using System.Threading.Tasks;
 
 namespace Lab2
 {
+    /// <summary>
+    /// Abstract class
+    /// </summary>
+    abstract class GeomFigure
+    {
+        public abstract double Area();
+    }
+
+    interface IPrint
+    {
+        void Print();
+    }
+
+    class Rectangle : GeomFigure, IPrint
+    {
+        //------------------properties------------------------------
+        private double _width; //data storage for properties
+        public double width //definition 
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+
+        public double height { get; set; } //autodefinition
+        //----------------------------------------------------------
+
+        public Rectangle(double w, double h) { _width = w; height = h; } //constructor 
+
+        public override double Area()
+        {
+            return _width * height;
+        }
+
+        public override string ToString()
+        {
+            return "Rectangle width = " + this._width.ToString() + "\nRectangle height = " + this.height.ToString() + "\nRectangle area = " + Area().ToString() + "\n";
+        }
+
+        public void Print()
+        {
+            System.Console.WriteLine(ToString());
+        }
+
+    }
+
+    class Square : Rectangle, IPrint
+    {
+        public Square(double s) : base(s, s) { } //call of rect constructor in square constructor
+        public override string ToString()
+        {
+            return "Square side = " + this.width.ToString() + "\nSquare area = " + Area().ToString() + "\n";
+        }
+
+        public void Print()
+        {
+            System.Console.WriteLine(ToString());
+        }
+
+    }
+
+    class Circle : GeomFigure, IPrint
+    {
+        public double r { get; set; }
+        public Circle(double r) { this.r = r; }
+
+        public override double Area()
+        {
+            return 2 * Math.PI * r * r;
+        }
+
+        public override string ToString()
+        {
+            return "Circle radius = " + r.ToString() + "\nCircle area = " + Area().ToString() + "\n";
+        }
+
+        public void Print()
+        {
+            System.Console.WriteLine(ToString());
+        }
+    }
+
+
     class Program
     {
         static int menu()
@@ -18,87 +100,7 @@ namespace Lab2
             return num;
         }
 
-       /// <summary>
-       /// Abstract class
-       /// </summary>
-        abstract class GeomFigure
-        {
-          public abstract double Area();
-        }
-
-        interface IPrint
-        {
-            void Print();
-        }
-     
-        class Rectangle : GeomFigure, IPrint
-        {
-            //------------------properties------------------------------
-            private double _width; //data storage for properties
-            public double width //definition 
-            {
-                get { return _width; }
-                set { _width = value; }
-            }
-
-            public double height { get; set; } //autodefinition
-            //----------------------------------------------------------
-
-            public Rectangle(double w, double h) { _width = w; height = h; } //constructor 
-
-            public override double Area()
-            {
-                return _width * height;
-            }
-
-            public override string ToString()
-            {
-                return "Rectangle width = " + this._width.ToString() + "\nRectangle height = " + this.height.ToString() + "\nRectangle area = " + Area().ToString() + "\n";
-            }
-
-            public void Print()
-            {
-                System.Console.WriteLine(ToString());
-            }
-
-        }
-
-        class Square : Rectangle, IPrint
-        {
-            public Square(double s) : base(s, s) { } //call of rect constructor in square constructor
-            public override string ToString() 
-            {
-                return "Square side = " + this.width.ToString() + "\nSquare area = " + Area().ToString() + "\n"; 
-            }
-
-            public void Print()
-            {
-                System.Console.WriteLine(ToString());
-            }
-
-        }
-
-        class Circle : GeomFigure, IPrint
-        {
-            public double r { get; set; }
-            public Circle(double r) { this.r=r; }
-
-            public override double Area()
-            {
-                return 2 * 3.14 * r * r;
-            }
-
-            public override string ToString()
-            {
-                return "Circle radius = " + r.ToString() + "\nCircle area = " + Area().ToString() + "\n";
-            }
-
-            public void Print()
-            {
-                System.Console.WriteLine(ToString());
-            }
-        }
-
+      
         static bool check(double val)
         {
             bool res = true;
