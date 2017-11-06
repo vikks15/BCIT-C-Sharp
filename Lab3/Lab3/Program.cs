@@ -5,6 +5,89 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+namespace SparseMatrix
+{
+    public class Matrix<T>
+    {
+        /// <summary>
+        /// Dictionary to store data
+        /// </summary>
+        Dictionary<string, T> _matrix = new Dictionary<string, T>();
+        int maxX; // max number of columns
+        int maxY; // max number of strings
+       
+        /// <summary>
+        /// Empty element, returns if there is no element with needed coordinats 
+        /// </summary>
+        T nullElement;
+        public Matrix(int px, int py, T nullElementParam) //Constructor
+        {
+            this.maxX = px;
+            this.maxY = py;
+            this.nullElement = nullElementParam;
+        }
+      
+        void CheckBounds(int x, int y)
+        {
+            if (x < 0 || x >= this.maxX) throw new Exception("x=" + x + " overflow");
+
+            if (y < 0 || y >= this.maxY) throw new Exception("y=" + y + " overflow");
+        }
+        /// <summary>
+        /// Form the key
+        /// </summary>
+        string DictKey(int x, int y)
+        {
+            return x.ToString() + "_" + y.ToString();
+        }
+
+        /// <summary>
+        /// Indexer to access data
+        /// </summary>
+        public T this[int x, int y]
+        {
+            
+            get
+            {
+                CheckBounds(x, y);
+                string key = DictKey(x, y);
+                if (this._matrix.ContainsKey(key))
+                {
+                    return this._matrix[key];
+                }
+                else
+                {
+                    return this.nullElement;
+                }
+            }
+            set
+            {
+                CheckBounds(x, y);
+                string key = DictKey(x, y);
+                this._matrix.Add(key, value);
+            }
+        }
+
+        public override string ToString()
+        {
+            //Class StringBuilder - for long strings, faster then making from lots of normal str   
+            StringBuilder b = new StringBuilder();
+            for (int j = 0; j < this.maxY; j++)
+            {
+                b.Append("[");
+                for (int i = 0; i < this.maxX; i++)
+                {
+                    if (i > 0) b.Append("\t");
+                    b.Append(this[i, j].ToString());
+                }
+                b.Append("]\n");
+            }
+            return b.ToString();
+        }
+    }
+}
+
+
 namespace Lab3
 {
     interface IPrint
@@ -102,7 +185,7 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            double a = 3, b = 4, r = 5, count = 0;
+            double a = 3, b = 4, r = 5;
             Rectangle rec = new Rectangle(a, b);
             Square sq = new Square(a);
             Circle circ = new Circle(r);
