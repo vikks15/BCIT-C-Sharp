@@ -51,7 +51,7 @@ namespace Lab3
 
         public override string ToString()
         {
-            return "Rectangle width = " + this._width.ToString() + "\nRectangle height = " + this.height.ToString() + "\nRectangle area = " + Area().ToString() + "\n";
+            return "Rectangle width = " + this._width.ToString() + "; Rectangle height = " + this.height.ToString() + "; Rectangle area = " + Area().ToString();
         }
 
         public void Print()
@@ -66,7 +66,7 @@ namespace Lab3
         public Square(double s) : base(s, s) { } //call of rect constructor in square constructor
         public override string ToString()
         {
-            return "Square side = " + this.width.ToString() + "\nSquare area = " + Area().ToString() + "\n";
+            return "Square side = " + this.width.ToString() + "; Square area = " + Area().ToString();
         }
 
         public void Print()
@@ -88,7 +88,7 @@ namespace Lab3
 
         public override string ToString()
         {
-            return "Circle radius = " + r.ToString() + "\nCircle area = " + Area().ToString() + "\n";
+            return "Circle radius = " + r.ToString() + "; Circle area = " + Area().ToString();
         }
 
         public void Print()
@@ -102,7 +102,7 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            double a = 3, b = 4, r = 5;
+            double a = 3, b = 4, r = 5, count = 0;
             Rectangle rec = new Rectangle(a, b);
             Square sq = new Square(a);
             Circle circ = new Circle(r);
@@ -112,30 +112,18 @@ namespace Lab3
             al.Add(sq);
             al.Add(circ);
             al.Sort();
+            Console.WriteLine("ArrayList");
+            foreach(object obj in al) Console.WriteLine(obj.ToString()); //or through str type = obj.GetType().Name + ifs
 
-            foreach(object obj in al)
-            {
-                string type = obj.GetType().Name;
-                if (type == "Rectangle")
-                {
-                    Rectangle rr = (Rectangle)obj;
-                    rr.Print();                          
-                }
-                else if (type == "Square") Console.WriteLine(obj.ToString());
-                else if (type == "Circle") Console.WriteLine(obj.ToString());
-                
-            }
-
-            a = 4; b = 5; r = 1;
-            Rectangle rec2 = new Rectangle(a, b);
-            Square sq2 = new Square(a);
-            Circle circ2 = new Circle(r);
-
+            Rectangle rec2 = new Rectangle(4, 5);
+            Square sq2 = new Square(4);
+            Circle circ2 = new Circle(1);
             List<GeomFigure> list = new List<GeomFigure>();
             list.Add(rec2);
             list.Add(sq2);
             list.Add(circ2);
             list.Sort();
+            Console.WriteLine("\nList with " + list.Count() + " elements");
             foreach (GeomFigure figure in list)
             {
                 Console.WriteLine(figure.ToString());
