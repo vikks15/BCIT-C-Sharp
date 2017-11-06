@@ -18,8 +18,7 @@ namespace Lab3
     abstract class GeomFigure : IComparable
     {
         public abstract double Area();
-
-         public int CompareTo(object ob) //with IComparable
+        public int CompareTo(object ob) //with IComparable
         {
             GeomFigure f = (GeomFigure)ob;
             if (this.Area() == f.Area()) return 0;
@@ -27,6 +26,7 @@ namespace Lab3
             else return -1;
 
         }
+
        
     }
     class Rectangle : GeomFigure, IPrint
@@ -111,7 +111,6 @@ namespace Lab3
             al.Add(rec);
             al.Add(sq);
             al.Add(circ);
-
             al.Sort();
 
             foreach(object obj in al)
@@ -127,6 +126,20 @@ namespace Lab3
                 
             }
 
+            a = 4; b = 5; r = 1;
+            Rectangle rec2 = new Rectangle(a, b);
+            Square sq2 = new Square(a);
+            Circle circ2 = new Circle(r);
+
+            List<GeomFigure> list = new List<GeomFigure>();
+            list.Add(rec2);
+            list.Add(sq2);
+            list.Add(circ2);
+            list.Sort();
+            foreach (GeomFigure figure in list)
+            {
+                Console.WriteLine(figure.ToString());
+            }
             Console.ReadKey();
 
         }
