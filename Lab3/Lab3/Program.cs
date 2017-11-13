@@ -5,8 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SparseMatrix
+ 
+namespace Lab3
 {
+    class FigureMatrCheckEmpty
+    {
+        public GeomFigure getEmptyElement()
+        {
+            return null;
+        }
+
+        public bool checkEmpty(GeomFigure figure)
+        {
+            bool res = false;
+            if (figure == null) res = true;
+            return res;
+        }
+    }
+
     public class Matrix<T>
     {
         /// <summary>
@@ -15,18 +31,15 @@ namespace SparseMatrix
         Dictionary<string, T> _matrix = new Dictionary<string, T>();
         int maxX; // max number of columns
         int maxY; // max number of strings
-       
-        /// <summary>
-        /// Empty element, returns if there is no element with needed coordinats 
-        /// </summary>
-        T nullElement;
+
+        T nullElement; // Empty element, returns if there is no element with needed coordinats 
         public Matrix(int px, int py, T nullElementParam) //Constructor
         {
             this.maxX = px;
             this.maxY = py;
             this.nullElement = nullElementParam;
         }
-      
+
         void CheckBounds(int x, int y)
         {
             if (x < 0 || x >= this.maxX) throw new Exception("x=" + x + " overflow");
@@ -46,7 +59,7 @@ namespace SparseMatrix
         /// </summary>
         public T this[int x, int y]
         {
-            
+
             get
             {
                 CheckBounds(x, y);
@@ -78,18 +91,15 @@ namespace SparseMatrix
                 for (int i = 0; i < this.maxX; i++)
                 {
                     if (i > 0) b.Append("\t");
-                    b.Append(this[i, j].ToString());
+                    if (this[i, j].Equals(nullElement)) b.Append("-");
+                    else b.Append(this[i, j].ToString());
                 }
                 b.Append("]\n");
             }
             return b.ToString();
         }
     }
-}
 
-
-namespace Lab3
-{
     interface IPrint
     {
         void Print();
@@ -110,7 +120,6 @@ namespace Lab3
 
         }
 
-       
     }
     class Rectangle : GeomFigure, IPrint
     {
@@ -134,7 +143,7 @@ namespace Lab3
 
         public override string ToString()
         {
-            return "Rectangle width = " + this._width.ToString() + "; Rectangle height = " + this.height.ToString() + "; Rectangle area = " + Area().ToString();
+            return "Rectangle area = " + Area().ToString();
         }
 
         public void Print()
@@ -149,7 +158,7 @@ namespace Lab3
         public Square(double s) : base(s, s) { } //call of rect constructor in square constructor
         public override string ToString()
         {
-            return "Square side = " + this.width.ToString() + "; Square area = " + Area().ToString();
+            return "Square area = " + Area().ToString();
         }
 
         public void Print()
@@ -171,7 +180,7 @@ namespace Lab3
 
         public override string ToString()
         {
-            return "Circle radius = " + r.ToString() + "; Circle area = " + Area().ToString();
+            return "Circle area = " + Area().ToString();
         }
 
         public void Print()
@@ -211,6 +220,14 @@ namespace Lab3
             {
                 Console.WriteLine(figure.ToString());
             }
+
+            Console.WriteLine("\nMatrix");
+            Square nullFigure = new Square(0);
+            Matrix<GeomFigure> matr = new Matrix<GeomFigure>(3, 3, nullFigure);
+            matr[0, 0] = rec;
+            matr[1, 1] = sq;
+            matr[2, 2] = circ;
+            Console.WriteLine(matr.ToString());
             Console.ReadKey();
 
         }
