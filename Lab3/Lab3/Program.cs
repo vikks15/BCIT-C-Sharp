@@ -302,6 +302,38 @@ namespace Lab3
         }
     }
 
+    public class SimpleStack<T> : SimpleList<T> where T : IComparable
+    {
+        public void Push(T element)
+        {
+            AddElement(element);
+        }
+
+        public T Pop()
+        {
+            T res = default(T);
+            if (this.numberOfElements == 0) return res;
+
+            if (this.numberOfElements == 1)
+            {
+                res = this.firstElement.data;
+                this.firstElement = null;
+                this.lastElement = null;
+
+            }
+            else
+            {
+                SimpleListItem<T> newLast = this.GetItem(this.numberOfElements - 2);
+                res = newLast.nextElement.data;
+                this.lastElement = newLast;
+                newLast.nextElement = null;
+
+            }
+            this.numberOfElements--;
+            return res;
+            
+        }
+    }
 
     class Program
     {
@@ -354,6 +386,18 @@ namespace Lab3
             foreach (var x in SimpleL) Console.WriteLine(x);
             //--------------------------------------------------------------
 
+            //---------------SimpleStack-------------------------------------
+            Console.WriteLine("\nSimpleStack");
+            SimpleStack<GeomFigure> stack = new SimpleStack<GeomFigure>();
+            stack.Push(rec);
+            stack.Push(sq);
+            stack.Push(sq);
+            stack.Push(circ);
+            foreach (var x in stack) Console.WriteLine(x);
+            Console.WriteLine("\nStack Pop result: " + stack.Pop().ToString());
+            Console.WriteLine("\nStack after Pop");
+            foreach (var x in stack) Console.WriteLine(x);
+            //--------------------------------------------------------------
 
 
             Console.ReadKey();
