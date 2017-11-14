@@ -8,21 +8,6 @@ using System.Threading.Tasks;
 
 namespace Lab3
 {
-    class FigureMatrCheckEmpty
-    {
-        public GeomFigure getEmptyElement()
-        {
-            return null;
-        }
-
-        public bool checkEmpty(GeomFigure figure)
-        {
-            bool res = false;
-            if (figure == null) res = true;
-            return res;
-        }
-    }
-
     public class Matrix<T>
     {
         /// <summary>
@@ -93,13 +78,13 @@ namespace Lab3
             {
                 for (int j = 0; j < this.maxY; j++)
                 {
-                
+
                     for (int z = 0; z < this.maxX; z++)
                     {
                         if (z > 0) b.Append("\t");
                         b.Append(this.name + "[" + i + "," + j + "," + z + "]: ");
                         if (this[i, j, z].Equals(nullElement)) b.Append("-" + "\t\t");
-                        else b.Append(this[i, j, z].ToString() + "\t" );
+                        else b.Append(this[i, j, z].ToString() + "\t");
                     }
                     b.Append("\n");
                 }
@@ -107,12 +92,10 @@ namespace Lab3
             return b.ToString();
         }
     }
-
     interface IPrint
     {
         void Print();
     }
-
     /// <summary>
     /// Abstract class
     /// </summary>
@@ -160,7 +143,6 @@ namespace Lab3
         }
 
     }
-
     class Square : Rectangle, IPrint
     {
         public Square(double s) : base(s, s) { } //call of rect constructor in square constructor
@@ -175,7 +157,6 @@ namespace Lab3
         }
 
     }
-
     class Circle : GeomFigure, IPrint
     {
         public double r { get; set; }
@@ -196,6 +177,131 @@ namespace Lab3
             System.Console.WriteLine(ToString());
         }
     }
+
+    /// <summary>
+    /// Element in List
+    /// </summary>
+    public class SimpleListItem<T>
+    {
+        public T data { get; set; }
+        public SimpleListItem<T> nextElement { get; set; } //like pointer
+        public SimpleListItem(T param) { this.data = param; } //constructor
+
+    }
+    /// <summary>
+    /// List
+    /// </summary>
+    public class SimpleList<T> : IEnumerable<T>
+    where T : IComparable
+    {
+        protected SimpleListItem<T> firstElement = null;
+        protected SimpleListItem<T> lastElement = null;
+        int _count;
+        public int numberOfElements
+        {
+            get { return _count; }
+            protected set { _count = value; }
+        }
+   
+        public void AddElement(T element)
+        {
+            SimpleListItem<T> newItem = new SimpleListItem<T>(element);
+            this.numberOfElements++;
+            if (lastElement == null) //add first element
+            {
+                this.firstElement = newItem;
+                this.lastElement = newItem;
+            }
+            
+            else //add following elements
+            {
+                this.lastElement.nextElement = newItem; 
+                this.lastElement = newItem;
+            }
+        }
+        /// <summary>
+        ///Get container by number
+        /// </summary>
+        public SimpleListItem<T> GetItem(int number)
+        {
+            if ((number < 0) || (number >= this.numberOfElements))
+            {
+                throw new Exception("Out of bounds");
+            }
+            SimpleListItem<T> current = this.firstElement;
+            int i = 0;
+            while (i < number)
+            {
+                current = current.nextElement; //go to the next element
+                i++;
+            }
+            return current;
+        }
+        /// <summary>
+        /// Read element by number
+        /// </summary>
+        public T Get(int number)
+        {
+            return GetItem(number).data;
+        }
+        /// <summary>
+        /// Для перебора коллекции
+        /// </summary>
+        public IEnumerator<T> GetEnumerator()
+        {
+            SimpleListItem<T> current = this.firstElement;
+            //Перебор элементов
+            while (current != null)
+            {
+                yield return current.data;
+                current = current.nextElement;
+            }
+        }
+        //Реализация обощенного IEnumerator<T> требует реализации необобщенного интерфейса
+        //Данный метод добавляется автоматически при реализации интерфейса
+        System.Collections.IEnumerator
+        System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+       
+        public void Sort()
+        {
+            QuickSort(0, this.numberOfElements - 1);
+        }
+        
+        private void QuickSort(int low, int high)
+        {
+            int i = low;
+            int j = high;
+            T x = Get((low + high) / 2);
+            do
+            {
+                while (Get(i).CompareTo(x) < 0) ++i;
+                while (Get(j).CompareTo(x) > 0) --j;
+                if (i <= j)
+                {
+                    Swap(i, j);
+                    i++; j--;
+                }
+            } while (i <= j);
+            if (low < j) QuickSort(low, j);
+            if (i < high) QuickSort(i, high);
+        }
+        /// <summary>
+        /// Вспомогательный метод для обмена элементов при сортировке
+        /// </summary>
+        private void Swap(int i, int j)
+        {
+            SimpleListItem<T> ci = GetItem(i);
+            SimpleListItem<T> cj = GetItem(j);
+
+            T temp = ci.data;
+            ci.data = cj.data;
+            cj.data = temp;
+        }
+    }
+
 
     class Program
     {
@@ -229,6 +335,7 @@ namespace Lab3
                 Console.WriteLine(figure.ToString());
             }
 
+            //----------------------------Sparse Matrix-----------------------------------
             Console.WriteLine("\nMatrix");
             Square nullFigure = new Square(0);
             Matrix<GeomFigure> matr = new Matrix<GeomFigure>("matr", 3, 3, 3, nullFigure);
@@ -236,8 +343,20 @@ namespace Lab3
             matr[1, 1, 1] = sq;
             matr[2, 2, 2] = circ;
             Console.WriteLine(matr.ToString());
-            Console.ReadKey();
+            //---------------------------------------------------------------------------
 
+            //---------------SimpleList-------------------------------------
+            Console.WriteLine("\nSimpleList");
+            SimpleList<GeomFigure> SimpleL = new SimpleList<GeomFigure>();
+            SimpleL.AddElement(rec);
+            SimpleL.AddElement(circ);
+            SimpleL.AddElement(sq);
+            foreach (var x in SimpleL) Console.WriteLine(x);
+            //--------------------------------------------------------------
+
+
+
+            Console.ReadKey();
         }
 
     }
