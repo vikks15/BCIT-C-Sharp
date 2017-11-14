@@ -98,8 +98,8 @@ namespace Lab3
                     {
                         if (z > 0) b.Append("\t");
                         b.Append(this.name + "[" + i + "," + j + "," + z + "]: ");
-                        if (this[i, j, z].Equals(nullElement)) b.Append("  -  ");
-                        else b.Append(this[i, j, z].ToString());
+                        if (this[i, j, z].Equals(nullElement)) b.Append("-" + "\t\t");
+                        else b.Append(this[i, j, z].ToString() + "\t" );
                     }
                     b.Append("\n");
                 }
@@ -231,10 +231,10 @@ namespace Lab3
 
             Console.WriteLine("\nMatrix");
             Square nullFigure = new Square(0);
-            Matrix<GeomFigure> matr = new Matrix<GeomFigure>("matr", 2, 2, 2, nullFigure);
+            Matrix<GeomFigure> matr = new Matrix<GeomFigure>("matr", 3, 3, 3, nullFigure);
             matr[0, 0, 0] = rec;
             matr[1, 1, 1] = sq;
-            // matr[2, 2, 2] = circ;
+            matr[2, 2, 2] = circ;
             Console.WriteLine(matr.ToString());
             Console.ReadKey();
 
