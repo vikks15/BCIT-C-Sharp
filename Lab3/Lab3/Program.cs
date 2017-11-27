@@ -164,7 +164,7 @@ namespace Lab3
 
         public override double Area()
         {
-            return 2 * Math.PI * r * r;
+            return Math.PI * r * r;
         }
 
         public override string ToString()
