@@ -41,28 +41,45 @@ namespace Lab4
                 foreach (string tempStr in textArray)
                 {
                     string str = tempStr.Trim(); //delete spaces
-                    if (!list.Contains(str))//add word to list
+                    if (!list.Contains(str)) //repeat check 
                     {
-                        list.Add(str);
+                        list.Add(str); //add word to list
                         //TextBox.Text += str + "\r\n";
                         listBox.Items.Add(str);
                     }
                                                            
                 }
                 timer.Stop();
-                this.TimerBox.Text = timer.Elapsed.ToString();
+                this.Timer1Box.Text = timer.Elapsed.ToString();
                 this.WordsCountBox.Text = list.Count.ToString();
-               
-               
             }
             else MessageBox.Show("Choose file!");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void SearchWordButton_Click(object sender, EventArgs e)
         {
-           
-            MessageBox.Show("Bye");
+            listBoxResults.Items.Clear(); //clean listbox with results
+            string word = this.EnterWordBox.Text.Trim(); //word for search
+            if(!string.IsNullOrWhiteSpace(word) && list.Count!=0)
+            {
+
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+                foreach (string str in list)
+                {
+                    
+                    if (str.ToUpper().Contains(word.ToUpper()))
+                    {
+                        listBoxResults.Items.Add(str);                                             
+                    }
+                }
+                timer.Stop();
+                this.Timer2Box.Text = timer.Elapsed.ToString();
+                
+            }
+            else MessageBox.Show("Choose file and enter word."); 
         }
+
 
     }
 }
