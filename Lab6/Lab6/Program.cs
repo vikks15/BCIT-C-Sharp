@@ -37,7 +37,7 @@ namespace Lab6
 
         static void Main(string[] args)
         {
-            Console.WriteLine("--------------Part 1-----------------");
+            Console.WriteLine("--------------------Part 1: Delegates---------------------------------");
             double a = 3.14;
             int b = 5;
             PlusOrMinusMethod("Plus: ", a, b, Plus);
@@ -83,12 +83,12 @@ namespace Lab6
             Console.Clear();
 
 
-            Console.WriteLine("------------------------------Part 2----------------------------------");
+            Console.WriteLine("------------------------------Part 2: Reflection----------------------------------");
             ForInspection obj = new ForInspection();
             Type t = obj.GetType(); //obj of class Type for getting info about class ForInspections
             // or 
             //Type t = typeof(ForInspection);
-            Console.WriteLine("\nConstructors: ");
+            Console.WriteLine("Constructors: ");
             foreach (var x in t.GetConstructors()) Console.WriteLine(x);
             Console.WriteLine("\nMethods: ");
             foreach (var x in t.GetMethods()) Console.WriteLine(x);
@@ -104,10 +104,20 @@ namespace Lab6
                 object attrObj;
                 if (GetAttributeProperty(x, typeof(NewAttribute), out attrObj))
                 {
-                    NewAttribute attr = attrObj as NewAttribute;
+                    NewAttribute attr = attrObj as NewAttribute; //type conversion
                     Console.WriteLine(x.Name + " - " + attr.Description);
                 }
             }
+
+            Console.WriteLine("\nMethod call:");    
+            //ForInspection fi = new ForInspection();
+            //Or make obj with reflection
+            ForInspection fi = (ForInspection)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, new object[] { });
+            object[] parameters = new object[] { 3, 2 }; //method call parameters
+            object Result = t.InvokeMember("Plus", BindingFlags.InvokeMethod, null, fi, parameters); //method call
+            //BindingFlags - choose operation: make obj, call method etc
+            Console.WriteLine("Plus(3,2)=" + Result);
+            Console.WriteLine("-----------------------------------------------------------------------------");
 
             Console.ReadKey();
 
