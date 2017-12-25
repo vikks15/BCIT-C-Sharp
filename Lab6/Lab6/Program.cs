@@ -98,7 +98,16 @@ namespace Lab6
             foreach (var x in t.GetFields()) Console.WriteLine(x);
             Console.WriteLine("\nForInspection contains IComparable -> " + t.GetInterfaces().Contains(typeof(IComparable)));
 
-
+            Console.WriteLine("\nProperties with attributes: ");
+            foreach (var x in t.GetProperties())
+            {
+                object attrObj;
+                if (GetAttributeProperty(x, typeof(NewAttribute), out attrObj))
+                {
+                    NewAttribute attr = attrObj as NewAttribute;
+                    Console.WriteLine(x.Name + " - " + attr.Description);
+                }
+            }
 
             Console.ReadKey();
 
@@ -140,7 +149,21 @@ namespace Lab6
             }
         }
 
+        public static bool GetAttributeProperty(PropertyInfo checkType, Type attributeType, out object attribute)
+        {
+            bool Result = false;
+            attribute = null;
 
+            //Search for attributes with exact type
+            var isAttribute = checkType.GetCustomAttributes(attributeType, false);
+            if (isAttribute.Length > 0)
+            {
+                Result = true;
+                attribute = isAttribute[0];
+            }
+
+            return Result;
+        }
 
     }
 }
