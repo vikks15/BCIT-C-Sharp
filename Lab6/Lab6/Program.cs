@@ -123,7 +123,25 @@ namespace Lab6
 
         }
 
-        /// <summary>
+        public static bool GetAttributeProperty(PropertyInfo checkType, Type attributeType, out object attribute)
+        {
+            bool Result = false;
+            attribute = null;
+
+            //Search for attributes with exact type
+            var isAttribute = checkType.GetCustomAttributes(attributeType, false);
+            if (isAttribute.Length > 0)
+            {
+                Result = true;
+                attribute = isAttribute[0];
+            }
+
+            return Result;
+        }
+
+    }
+
+    /// <summary>
         /// Atribute class
         /// </summary>
         [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)] 
@@ -158,22 +176,4 @@ namespace Lab6
                 return 0;
             }
         }
-
-        public static bool GetAttributeProperty(PropertyInfo checkType, Type attributeType, out object attribute)
-        {
-            bool Result = false;
-            attribute = null;
-
-            //Search for attributes with exact type
-            var isAttribute = checkType.GetCustomAttributes(attributeType, false);
-            if (isAttribute.Length > 0)
-            {
-                Result = true;
-                attribute = isAttribute[0];
-            }
-
-            return Result;
-        }
-
-    }
 }
