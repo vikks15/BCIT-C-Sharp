@@ -8,6 +8,7 @@ namespace Lab6
 {
     class Program
     {
+
         delegate double PlusOrMinus(double a, int b);
 
         static void PlusOrMinusMethod(string str, double a, int b, PlusOrMinus ProsCons)
@@ -27,6 +28,12 @@ namespace Lab6
             return a - b;
         }
 
+        static void PlusOrMinusMethod2(string str, double a, int b, Func <double, int, double> ProsCons) //generalized delegate Func - announce in method
+        {
+            double result = ProsCons(a, b);
+            Console.WriteLine(str + result);
+        }
+
         static void Main(string[] args)
         {
             double a = 3.14;
@@ -44,9 +51,10 @@ namespace Lab6
             PlusOrMinusMethod("Minus with short lambda expression: ", a, b, (c, d) => c-d);
             //----------------------------------------------------------------------------------
 
+            PlusOrMinusMethod2("Plus. Delegate Func<> (Method Plus): ", a, b, Plus);
+            PlusOrMinusMethod2("Minus. Delegate Func<> (lambda expression): ", a, b, (c, d) => c - d);
             Console.ReadKey();
         }
-
-       
+ 
     }
 }
