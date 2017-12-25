@@ -40,6 +40,7 @@ namespace Lab6
             int b = 5;
             PlusOrMinusMethod("Plus: ", a, b, Plus);
             PlusOrMinusMethod("Minus: ", a, b, Minus);
+            Console.WriteLine("\n");
 
             //---------------------lambda expressions-------------------------------------------
             PlusOrMinusMethod("Plus with long lambda expression: ", a, b, (double c, int d)=>
@@ -49,10 +50,35 @@ namespace Lab6
             });
 
             PlusOrMinusMethod("Minus with short lambda expression: ", a, b, (c, d) => c-d);
+            Console.WriteLine("\n");
             //----------------------------------------------------------------------------------
 
             PlusOrMinusMethod2("Plus. Delegate Func<> (Method Plus): ", a, b, Plus);
             PlusOrMinusMethod2("Minus. Delegate Func<> (lambda expression): ", a, b, (c, d) => c - d);
+            Console.WriteLine("\n");
+
+            //------------------------Multicast delegates (grouped)----------------------------------
+            Action<int, int> a1 = (x, y) => { Console.WriteLine("{0} + {1} = {2}", x, y, x + y); };
+            Action<int, int> a2 = (x, y) => { Console.WriteLine("{0} - {1} = {2}", x, y, x - y); };
+            Action<int, int> group = a1 + a2;
+            Console.Write("a1(5, 3): ");
+            a1(5, 3);
+
+            Console.WriteLine("group(5, 3): ");
+            group(5, 3);
+            Console.WriteLine("\n");
+
+            Action<int, int> group2 = a1;
+            Console.WriteLine("Add method call to group2: ");
+            group2 += a2;
+            group2(2,3);
+
+            Console.WriteLine("Delete method call from group2: ");
+            group2 -= a1;
+            group2(2,3);
+            Console.WriteLine("\n");
+            //-----------------------------------------------------------------------------------------
+
             Console.ReadKey();
         }
  
