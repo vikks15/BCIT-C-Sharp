@@ -24,6 +24,44 @@ namespace Lab5
         /// </summary>
         List<string> list = new List<string>();
 
+        public static int Distance(string s1, string s2)
+        {
+            if ((s1 == null) || (s2 == null)) return -1;
+            if ((s1.Length == 0) && (s2.Length == 0)) return 0;
+            if (s1.Length == 0) return s2.Length; //if one str is empty return length of another
+            if (s2.Length == 0) return s1.Length;
+
+            string str1 = s1.ToUpper();
+            string str2 = s2.ToUpper();
+
+            int[,] matrix = new int[str1.Length + 1, str2.Length + 1]; //+1 for(int i=1 ...)
+
+            //initialization of first row and column 
+            for (int i = 0; i <= str1.Length; i++) matrix[i, 0] = i;
+            for (int j = 0; j <= str2.Length; j++) matrix[0, j] = j;
+
+            //counting Levenshtein distance
+            for (int i = 1; i <= str1.Length; i++)
+            {
+                for (int j = 1; j <= str2.Length; j++)
+                {
+                    int equalChar = (str1.Substring(i - 1, 1) == str2.Substring(j - 1, 1) ? 0 : 1); //m(s1[i],s2[j])
+                    int ins = matrix[i, j - 1] + 1; //insert
+                    int del = matrix[i - 1, j] + 1; //delete
+                    int subst = matrix[i - 1, j - 1] + equalChar; //substitute
+
+                    matrix[i, j] = Math.Min(Math.Min(ins, del), subst);  //matrix element count as min of 3 variants
+
+                    //additional part for replacing 2 one by one elements 
+                    if ((i > 1) && (j > 1) && (str1.Substring(i - 1, 1) == str2.Substring(j - 2, 1)) && (str1.Substring(i - 2, 1) == str2.Substring(j - 1, 1)))
+                    {
+                        matrix[i, j] = Math.Min(matrix[i, j], matrix[i - 2, j - 2] + equalChar);
+                    }
+                }
+            }
+            return matrix[str1.Length, str2.Length]; //result is in the lower right cell
+        }
+
         private void choosefile_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -39,14 +77,14 @@ namespace Lab5
                 timer.Start();
 
                 string text = File.ReadAllText(fileDialog.FileName); //read text from file in string
-                char[] separators = new char[] { ' ', '.', ',', '!', '?', '/', '\t', '\n' };
+                char[] separators = new char[] { ' ', '.', ',', ':', ';', '«', '»', '!', '?', '/', '\r', '\t', '\n' };
                 string[] textArray = text.Split(separators);
 
                 listBox.BeginUpdate();
                 foreach (string tempStr in textArray)
                 {
                     string str = tempStr.Trim(); //delete spaces
-                    if (!list.Contains(str)) //repeat check 
+                    if (!list.Contains(str) && str.Length!=0) //repeat and empty string check 
                     {
                         list.Add(str); //add word to list
                         //TextBox.Text += str + "\r\n";
@@ -65,24 +103,26 @@ namespace Lab5
         {
             listBoxResults.Items.Clear(); //clean listbox with results
             string word = EnterWordBox.Text.Trim(); //word for search
-            if (!string.IsNullOrWhiteSpace(word) && list.Count != 0)
+            string maxD = MaxDistBox.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(word) && list.Count != 0 && maxD.Length!=0)
             {
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
                 listBoxResults.BeginUpdate();
                 foreach (string str in list)
                 {
-
-                    if (str.ToUpper().Contains(word.ToUpper()))
+                    int currentWordDist = Distance(str, word);
+                    if (currentWordDist<=int.Parse(maxD))
                     {
-                        listBoxResults.Items.Add(str);
+                        listBoxResults.Items.Add(str + " (distance " + currentWordDist + ")");
                     }
                 }
                 listBoxResults.EndUpdate();
                 timer.Stop();
                 Timer2Box.Text = timer.Elapsed.ToString();
             }
-            else MessageBox.Show("Choose file and enter word.");
+            else MessageBox.Show("Choose file, enter word and maximum distance.");
         }
     }
 }

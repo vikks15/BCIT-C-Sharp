@@ -40,6 +40,8 @@
             this.listBoxResults = new System.Windows.Forms.ListBox();
             this.Timer2Box = new System.Windows.Forms.TextBox();
             this.Timer2 = new System.Windows.Forms.Label();
+            this.MaxDistBox = new System.Windows.Forms.TextBox();
+            this.MaxDist = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SearchWordButton
@@ -67,7 +69,7 @@
             this.listBox.FormattingEnabled = true;
             this.listBox.Location = new System.Drawing.Point(12, 9);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(103, 212);
+            this.listBox.Size = new System.Drawing.Size(123, 316);
             this.listBox.TabIndex = 4;
             // 
             // Timer1
@@ -121,14 +123,14 @@
             // listBoxResults
             // 
             this.listBoxResults.FormattingEnabled = true;
-            this.listBoxResults.Location = new System.Drawing.Point(12, 247);
+            this.listBoxResults.Location = new System.Drawing.Point(144, 213);
             this.listBoxResults.Name = "listBoxResults";
-            this.listBoxResults.Size = new System.Drawing.Size(103, 82);
+            this.listBoxResults.Size = new System.Drawing.Size(217, 82);
             this.listBoxResults.TabIndex = 11;
             // 
             // Timer2Box
             // 
-            this.Timer2Box.Location = new System.Drawing.Point(261, 139);
+            this.Timer2Box.Location = new System.Drawing.Point(261, 172);
             this.Timer2Box.Name = "Timer2Box";
             this.Timer2Box.Size = new System.Drawing.Size(100, 20);
             this.Timer2Box.TabIndex = 12;
@@ -136,17 +138,35 @@
             // Timer2
             // 
             this.Timer2.AutoSize = true;
-            this.Timer2.Location = new System.Drawing.Point(141, 146);
+            this.Timer2.Location = new System.Drawing.Point(141, 177);
             this.Timer2.Name = "Timer2";
             this.Timer2.Size = new System.Drawing.Size(39, 13);
             this.Timer2.TabIndex = 13;
             this.Timer2.Text = "Timer2";
+            // 
+            // MaxDistBox
+            // 
+            this.MaxDistBox.Location = new System.Drawing.Point(261, 137);
+            this.MaxDistBox.Name = "MaxDistBox";
+            this.MaxDistBox.Size = new System.Drawing.Size(100, 20);
+            this.MaxDistBox.TabIndex = 14;
+            // 
+            // MaxDist
+            // 
+            this.MaxDist.AutoSize = true;
+            this.MaxDist.Location = new System.Drawing.Point(141, 144);
+            this.MaxDist.Name = "MaxDist";
+            this.MaxDist.Size = new System.Drawing.Size(73, 13);
+            this.MaxDist.TabIndex = 15;
+            this.MaxDist.Text = "Max. distance";
             // 
             // Lab5Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 372);
+            this.Controls.Add(this.MaxDist);
+            this.Controls.Add(this.MaxDistBox);
             this.Controls.Add(this.Timer2);
             this.Controls.Add(this.Timer2Box);
             this.Controls.Add(this.listBoxResults);
@@ -180,6 +200,8 @@
         private System.Windows.Forms.ListBox listBoxResults;
         private System.Windows.Forms.TextBox Timer2Box;
         private System.Windows.Forms.Label Timer2;
+        private System.Windows.Forms.TextBox MaxDistBox;
+        private System.Windows.Forms.Label MaxDist;
     }
 }
 
