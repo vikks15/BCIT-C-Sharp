@@ -39,14 +39,14 @@ namespace Lab4
                 timer.Start();
 
                 string text = File.ReadAllText(fileDialog.FileName); //read text from file in string
-                char[] separators = new char[] { ' ', '.', ',', '!', '?', '/', '\t', '\n'};
+                char[] separators = new char[] { ' ', '.', ',', ':', ';', '«', '»', '!', '?', '/', '\r', '\t', '\n' };
                 string[] textArray = text.Split(separators);
 
                 listBox.BeginUpdate();
                 foreach (string tempStr in textArray)
                 {
                     string str = tempStr.Trim(); //delete spaces
-                    if (!list.Contains(str)) //repeat check 
+                    if (!list.Contains(str) && str.Length != 0) //repeat and empty string check 
                     {
                         list.Add(str); //add word to list
                         //TextBox.Text += str + "\r\n";
