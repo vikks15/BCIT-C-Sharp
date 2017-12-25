@@ -85,7 +85,7 @@ namespace Lab6
 
             Console.WriteLine("------------------------------Part 2----------------------------------");
             ForInspection obj = new ForInspection();
-            Type t = obj.GetType();
+            Type t = obj.GetType(); //obj of class Type for getting info about class ForInspections
             // or 
             //Type t = typeof(ForInspection);
             Console.WriteLine("\nConstructors: ");
@@ -98,9 +98,26 @@ namespace Lab6
             foreach (var x in t.GetFields()) Console.WriteLine(x);
             Console.WriteLine("\nForInspection contains IComparable -> " + t.GetInterfaces().Contains(typeof(IComparable)));
 
+
+
             Console.ReadKey();
 
         }
+
+        /// <summary>
+        /// Atribute class
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)] 
+        public class NewAttribute : Attribute
+        {
+            public NewAttribute() { }
+            public NewAttribute(string DescriptionParam)
+            {
+                Description = DescriptionParam;
+            }
+            public string Description { get; set; }
+        }
+
 
         public class ForInspection : IComparable
         {
@@ -109,14 +126,10 @@ namespace Lab6
             public ForInspection(string str) { }
             public int Plus(int x, int y) { return x + y; }
             public int Minus(int x, int y) { return x - y; }
+            [NewAttribute("Description for property1")]
             public string property1 { get; set; }
-            /* {
-                 get { return _property1; }
-                 set { _property1 = value; }
-             }
-             private string _property1;*/
             public int property2 { get; set; }
-            
+            [NewAttribute(Description = "Description for property3")]
             public double property3 { get; private set; }
             public int field1;
             public float field2;
